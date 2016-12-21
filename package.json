@@ -1,0 +1,39 @@
+{
+  "name": "steal-typescript",
+  "version": "0.0.0",
+  "description": "StealJS plugin for TypeScript",
+  "main": "steal-typescript",
+  "scripts": {
+    "preversion": "npm test",
+    "postversion": "git push --tags && git push",
+    "test": "testee test/test.html --browsers firefox",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "author": "Kevin Phillips <kphillips86@gmail.com>",
+  "license": "MIT",
+  "steal": {
+    "ext": {
+      "ts": "steal-typescript"
+    },
+    "map": {
+      "chai": "chai/chai"
+    },
+    "meta": {
+      "typescript": {
+        "format": "global",
+        "exports": "ts"
+      }
+    }
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "steal": "^1.0.1",
+    "steal-mocha": "^1.0.0",
+    "testee": "^0.3.0"
+  },
+  "dependencies": {
+    "typescript": "^2.1.4"
+  }
+}
