@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "StealJS plugin for TypeScript",
   "main": "steal-typescript",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/phillipskevin/steal-typescript"
+  },
   "scripts": {
     "preversion": "npm test",
     "postversion": "git push --tags && git push",
