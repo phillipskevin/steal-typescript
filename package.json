@@ -1,11 +1,11 @@
 {
   "name": "steal-typescript",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "StealJS plugin for TypeScript",
   "main": "steal-typescript",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/phillipskevin/steal-typescript"
+    "type": "git",
+    "url": "https://github.com/phillipskevin/steal-typescript"
   },
   "scripts": {
     "preversion": "npm test",
