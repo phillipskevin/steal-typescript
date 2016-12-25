@@ -38,6 +38,7 @@
     "testee": "^0.3.0"
   },
   "dependencies": {
+    "object-assign": "^4.1.0",
     "typescript": "^2.1.4"
   }
 }

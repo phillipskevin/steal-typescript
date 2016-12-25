@@ -1,5 +1,6 @@
 var ts = require('typescript');
 var loader = require('@loader');
+var assign = require('object-assign');
 
 // translate hook will transpile TypeScript to JavaScript
 // will only be called for .ts files
@@ -51,7 +52,7 @@ loader.fetch = function(load) {
   var l = this;
   var args = arguments;
 
-  var tsLoad = Object.assign({}, load, {
+  var tsLoad = assign({}, load, {
     address: load.address.split('.')[0] + '.ts'
   });
 
