@@ -12,7 +12,7 @@ exports.translate = function(load) {
   var result = ts.transpileModule(load.source, {
     fileName: load.name.slice(0, load.name.indexOf('!')),
     compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
+      module: ts.ModuleKind.ES2015,
       sourceMap: useSourceMap
     }
   });
@@ -42,16 +42,18 @@ var _normalize = loader.normalize;
 loader.normalize = function(moduleIdentifier, parentName) {
   var parentParts = parentName && parentName.split('!');
   var parentPath = parentParts && parentParts[0].slice(0, parentParts[0].lastIndexOf('/') + 1);
-  var parentIsTypeScript = parentParts && parentParts[1] && parentParts[1].indexOf('steal-typescript') === 0;
+  var parentIsTypeScript = parentParts && parentParts[1] &&
+    parentParts[1].indexOf('steal-typescript') === 0;
+  var isRelativePath = moduleIdentifier.indexOf('./') === 0 ||
+    moduleIdentifier.indexOf('../') === 0;
 
   return _normalize
     .apply(this, arguments)
     .then(function(moduleName) {
 
-      // modules with !steal-typescript plugin in their moduleName seem to be normalized incorrectly
-      return parentIsTypeScript ?
+      // relative imports from typescript files are normalized incorrectly by steal
+      return parentIsTypeScript && isRelativePath ?
         moduleName.split('#')[0] + '#' + parentPath + moduleName.split('#')[1] :
-        // if the parent isn't typescript, treat it normally
         moduleName
     });
 };
@@ -62,8 +64,12 @@ loader.fetch = function(load) {
   var l = this;
   var args = arguments;
 
+  var dotJsIndex = load.address.indexOf('.js');
+  var isJavaScriptFile = dotJsIndex === load.address.length - 3;
+  var address = isJavaScriptFile ? load.address.slice(0, dotJsIndex) + '.ts' : load.address;
+
   var tsLoad = assign({}, load, {
-    address: load.address.split('.')[0] + '.ts'
+    address: address
   });
 
   return _fetch
