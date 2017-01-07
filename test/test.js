@@ -1,15 +1,18 @@
 import 'steal-mocha';
 import { assert } from 'chai';
-import exclaim from '../examples/greeter/exclaim.ts';
-import Greeter from '../examples/greeter/greeter.ts';
+import { render as jsRender } from '../examples/js-main/index.js';
+import { render as tsRender } from '../examples/ts-main/src/index.ts';
 
 describe('steal-typescript', () => {
-    it('can load a typescript module', () => {
-        assert.equal(exclaim('Hello'), 'Hello!');
+    it('JavaScript main renders correctly', () => {
+        var body = { innerHTML: '' };
+        jsRender(body);
+        assert.equal(body.innerHTML, '<h1>HELLO, WORLD!</h1>')
     });
 
-    it('can load a typescript module that loads another typescript module', () => {
-        const greeter = new Greeter('Hello');
-        assert.equal(greeter.greet(), 'HELLO!');
+    it('TypeScript main renders correctly', () => {
+        var body = { innerHTML: '' };
+        tsRender(body);
+        assert.equal(body.innerHTML, '<h1>HELLO, WORLD!</h1>')
     });
 });

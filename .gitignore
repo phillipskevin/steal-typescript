@@ -1,2 +1,4 @@
 node_modules
-examples/greeter/dist
+examples/js-main/dist
+examples/ts-main/dist
+debug.log
