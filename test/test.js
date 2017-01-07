@@ -10,6 +10,6 @@ describe('steal-typescript', () => {
 
     it('can load a typescript module that loads another typescript module', () => {
         const greeter = new Greeter('Hello');
-        assert.equal(greeter.greet(), 'Hello!');
+        assert.equal(greeter.greet(), 'HELLO!');
     });
 });

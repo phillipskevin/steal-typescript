@@ -1,9 +1,10 @@
 import exclaim from './exclaim';
+import toUpper from 'lodash/toUpper';
 
 export default class Greeter {
     constructor(public greeting: string) { }
 
     greet() {
-        return exclaim(this.greeting);
+        return toUpper(exclaim(this.greeting));
     }
 };
