@@ -2,19 +2,29 @@ var ts = require('typescript');
 var loader = require('@loader');
 var assign = require('object-assign');
 
+
 // translate hook will transpile TypeScript to JavaScript
-// will only be called for .ts files
+// hook will only be called for .ts files
 exports.translate = function(load) {
-  const result = ts.transpileModule(load.source, {
+  var useSourceMap = loader.isPlatform('window');
+  var sourceMapDelimiter = '//# sourceMappingURL=';
+
+  var result = ts.transpileModule(load.source, {
     fileName: load.name.slice(0, load.name.indexOf('!')),
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
-      sourceMap: true
+      sourceMap: useSourceMap
     }
   });
 
-  var sourceMap = JSON.parse(result.sourceMapText);
-  load.source = result.outputText + '\n//# sourceMappingURL=' + formatSourceMap(sourceMap, load.source);
+  load.source = result.outputText;
+
+  if (useSourceMap) {
+    // remove default source map
+    load.source = load.source.slice(0, load.source.indexOf(sourceMapDelimiter));
+    // add inline sourcemap
+    load.source += sourceMapDelimiter + formatSourceMap(JSON.parse(result.sourceMapText), load.source);
+  }
 };
 
 // convert source map from V3 format to base64

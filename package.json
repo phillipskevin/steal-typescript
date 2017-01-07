@@ -10,7 +10,9 @@
   "scripts": {
     "preversion": "npm test",
     "postversion": "git push --tags && git push",
-    "test": "testee test/test.html --browsers firefox",
+    "test": "npm run test-browser && npm run test-node",
+    "test-browser": "testee test/test.html --browsers firefox",
+    "test-node": "mocha test/test-node.js --timeout 60000",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish"
@@ -35,6 +37,7 @@
     "chai": "^3.5.0",
     "steal": "^1.0.1",
     "steal-mocha": "^1.0.0",
+    "steal-tools": "^1.0.1",
     "testee": "^0.3.0"
   },
   "dependencies": {
