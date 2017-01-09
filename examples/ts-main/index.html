@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <body>
+    <script src="./dist/steal.production.js">
+      import loader from '@loader';
+
+      loader.import(loader.main)
+        .then(function({ render }) {
+          render(document.body);
+        });
+    </script>
+  </body>
+</html>
