@@ -8,9 +8,10 @@
     "url": "https://github.com/phillipskevin/steal-typescript"
   },
   "scripts": {
+    "lint": "eslint steal-typescript.js",
     "preversion": "npm test",
     "postversion": "git push --tags && git push",
-    "test": "npm run test-browser && npm run test-node",
+    "test": "npm run lint && npm run test-browser && npm run test-node",
     "test-browser": "testee test/test.html --browsers firefox",
     "test-node": "mocha test/test-node.js --timeout 60000",
     "release:patch": "npm version patch && npm publish",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.47",
     "chai": "^3.5.0",
+    "eslint": "^3.13.1",
     "lodash": "^4.17.4",
     "steal": "^1.0.1",
     "steal-mocha": "^1.0.0",
