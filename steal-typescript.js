@@ -79,7 +79,7 @@ loader.fetch = function(load) {
 
   return _fetch
     .call(loader, tsLoad)
-    .catch(function(err) {
+    .catch(function() {
       return _fetch.apply(loader, args);
     });
 };
