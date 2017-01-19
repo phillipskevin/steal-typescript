@@ -1,4 +1,4 @@
-node_modules
-examples/js-main/dist
-examples/ts-main/dist
+.vscode/
+dist/
+node_modules/
 debug.log

@@ -1,23 +1,34 @@
 var mocha = require('mocha');
 var assert = require('chai').assert;
 var spawn = require('child_process').spawn;
+var stealTools = require('steal-tools');
 
 describe('steal-typescript', function() {
-    it('build - js-main', function(done) {
-      var build = spawn('node', ['examples/js-main/build.js']);
-
-      build.on('close', function(code) {
-        assert.equal(code, 0, 'should complete successfully');
-        done();
+    it('build - js-main', function() {
+      return stealTools.build({
+        config: __dirname + '/../package.json!npm',
+        main: 'examples/js-main/index'
+      }, {
+      })
+      .then(function() {
+        assert.ok(true, 'build successful');
+      })
+      .catch(function(err) {
+        assert.ok(false, err);
       });
     });
 
-    it('build - ts-main', function(done) {
-      var build = spawn('node', ['examples/ts-main/build.js']);
-
-      build.on('close', function(code) {
-        assert.equal(code, 0, 'should complete successfully');
-        done();
+    it('build - ts-main', function() {
+      return stealTools.build({
+        config: __dirname + '/../package.json!npm',
+        main: 'examples/ts-main/src/index.ts!steal-typescript'
+      }, {
+      })
+      .then(function() {
+        assert.ok(true, 'build successful');
+      })
+      .catch(function(err) {
+        assert.ok(false, err);
       });
     });
 });
