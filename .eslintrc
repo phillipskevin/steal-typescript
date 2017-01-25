@@ -3,6 +3,8 @@ env:
   commonjs: true
   node: true
 extends: 'eslint:recommended'
+globals:
+  System: true
 rules:
   indent:
     - error
