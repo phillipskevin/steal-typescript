@@ -2,9 +2,7 @@
 <html>
   <body>
     <script src="../../dist/steal.production.js" main="examples/ts-main/src/index.ts!steal-typescript">
-      import loader from '@loader';
-
-      loader.import(loader.main)
+      System.import(System.main)
         .then(function({ render }) {
           render(document.body);
         });

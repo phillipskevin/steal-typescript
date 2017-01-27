@@ -2,26 +2,14 @@ var loader = require('@loader');
 var nodeRequire = require('@node-require');
 var ts = nodeRequire('typescript');
 var path = nodeRequire('path');
-
+var utils = require('./utils');
 
 module.exports = function createProgram(load, compilerOptions) {
   var sourceText = '';
-  var nameWithoutPlugin = load.name.split('!')[0];
-  var parts = nameWithoutPlugin.split('#');
-  var project, file;
-
-  if (parts.length > 1) {
-    project = parts[0].split('@')[0];
-    file = parts.length ? parts[1] : '';
-  } else {
-    project = '';
-    file = parts[0].split('@')[0];
-  }
-
-  var lastSlashIndex = file && file.lastIndexOf('/');
-  var rootDir = lastSlashIndex > 0 ?
-    ((project ? project + '/' : '') + file.slice(0, lastSlashIndex)) :
-    project;
+  var dissected = utils.dissectModuleName(load.name);
+  var file = dissected.file;
+  var rootDir = dissected.path;
+  var project = dissected.project;
 
   // create TypeScript CompilerHost which will handle file system access
   var host = ts.createCompilerHost(compilerOptions);
@@ -31,7 +19,7 @@ module.exports = function createProgram(load, compilerOptions) {
   // this will prevent `.js` files from being created for everything except
   // for the root module.
   host.writeFile = function writeFile(fileName, data) {
-    var moduleSource = correctRelativeImports(data, rootDir);
+    var moduleSource = utils.correctRelativeImports(data, rootDir, 'ts');
     var address = fileName.startsWith('/') ? 'file:' + fileName :
       path.join(loader.baseURL, fileName);
     var virtualModuleName = '';
@@ -72,23 +60,3 @@ module.exports = function createProgram(load, compilerOptions) {
 
   return sourceText;
 };
-
-// make relative imports from TypeScript files not relative
-// `./b` -> `<rootDir>/b.ts`
-function correctRelativeImports(source, rootDir) {
-  var startString = 'define([';
-  var endString = ']';
-
-  var importsStart = source.indexOf(startString) + startString.length - 1;
-  var importsEnd = source.indexOf(endString, importsStart) + 1;
-
-  var imports = JSON.parse(source.slice(importsStart, importsEnd));
-
-  imports = imports.map(function(imp) {
-    return imp.startsWith('./') ?
-      path.normalize(rootDir + '/' + imp) + '.ts' :
-      imp;
-  });
-
-  return source.slice(0, importsStart) + JSON.stringify(imports) + source.slice(importsEnd);
-}

@@ -8,12 +8,12 @@
     "url": "https://github.com/phillipskevin/steal-typescript"
   },
   "scripts": {
-    "lint": "eslint typescript.js createProgram.js",
+    "lint": "eslint typescript.js createProgram.js utils.js",
     "preversion": "npm test",
     "postversion": "git push --tags && git push",
     "test": "npm run lint && npm run test-browser && npm run test-node",
     "test-browser": "testee test/test.html --browsers firefox",
-    "test-node": "mocha test/test-node.js --timeout 60000",
+    "test-node": "mocha test/test-build.js test/test-utils.js --timeout 60000",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish"
