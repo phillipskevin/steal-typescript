@@ -2,9 +2,7 @@
 <html>
   <body>
     <script src="../../dist/steal.production.js" main="examples/js-main/index">
-      import loader from '@loader';
-
-      loader.import(loader.main)
+      System.import(System.main)
         .then(function({ render }) {
           render(document.body);
         });

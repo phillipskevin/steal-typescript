@@ -3,7 +3,7 @@ var assert = require('chai').assert;
 var spawn = require('child_process').spawn;
 var stealTools = require('steal-tools');
 
-describe('steal-typescript', function() {
+describe('steal-typescript - build', function() {
     it('build - js-main', function() {
       return stealTools.build({
         config: __dirname + '/../package.json!npm',
