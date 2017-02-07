@@ -1,6 +1,6 @@
 {
   "name": "steal-typescript",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "StealJS plugin for TypeScript",
   "main": "typescript",
   "repository": {
