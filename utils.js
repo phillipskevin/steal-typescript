@@ -12,7 +12,7 @@ function correctRelativeImports(source, rootDir, extension) {
 
   imports = imports.map(function(imp) {
     return imp.startsWith('./') || imp.startsWith('../') ?
-      normalize(rootDir + '/' + imp) + extension :
+      normalize(rootDir ? rootDir + '/' + imp : imp) + extension :
       imp;
   });
 
@@ -24,6 +24,8 @@ function normalize(path) {
   return path
     // foo/./bar -> foo/bar
     .replace(/\/\.\//g, '/')
+    // ./foo/bar -> foo/bar
+    .replace(/^\.\//, '')
     // foo/bar/../baz -> foo/baz
     .replace(/\/\w*\/\.\.\//g, '/');
 }
