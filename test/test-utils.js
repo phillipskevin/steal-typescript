@@ -33,6 +33,14 @@ describe('steal-typescript - utils', function() {
       "function aFunction() { console.log('blah'); }" +
       'define(["foo","abc/xyz/bar","abc/baz"], function(foo, bar) {});',
       'works when there is other code before define block');
+
+    assert.deepEqual(
+      correctRelativeImports(
+        'define(["foo","./bar"], function(foo, bar) {});',
+        ''
+      ),
+      'define(["foo","bar"], function(foo, bar) {});',
+      './ in the root directory works');
   });
 
   it('normalize', function() {
@@ -40,6 +48,7 @@ describe('steal-typescript - utils', function() {
 
     assert.equal(normalize('foo/bar/./baz'), 'foo/bar/baz', './ works');
     assert.equal(normalize('foo/bar/../baz'), 'foo/baz', '../ works');
+    assert.equal(normalize('./foo/bar'), 'foo/bar', 'starting with ./ works');
   });
 
 
