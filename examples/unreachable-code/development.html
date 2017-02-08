@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <body>
+    <script src="../../node_modules/steal/steal.js" main="examples/unreachable-code/src/index.ts">
+      import loader from '@loader';
+
+      loader.import(loader.main)
+        .then(function({ render }) {
+          render(document.body);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<!doctype html>
+<html>
+  <body>
+    <script src="../../dist/steal.production.js" main="examples/unreachable-code/src/index.ts!steal-typescript">
+      System.import(System.main)
+        .then(function({ render }) {
+          render(document.body);
+        });
+    </script>
+  </body>
+</html>

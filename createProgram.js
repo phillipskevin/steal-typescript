@@ -53,8 +53,8 @@ module.exports = function createProgram(load, compilerOptions) {
   diagnostics.forEach(function(diagnostic) {
     var line = diagnostic.file && diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start).line;
     var messageText = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-    var message = (diagnostic.file ? diagnostic.file.fileName + ' ' : '') +
-                  (line ? ':' + (line + 1) + ' ' : '') + messageText;
+    var message = (diagnostic.file ? diagnostic.file.fileName : '') +
+                  (line ? ':' + (line + 1) + ' ' : ' ') + messageText;
     console.warn(message); // eslint-disable-line
   });
 
