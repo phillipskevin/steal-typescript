@@ -1,6 +1,7 @@
 var loader = require('@loader');
 var ts = require('typescript');
 var utils = require('./utils');
+var assign = require('object-assign');
 
 // translate hook will transpile TypeScript to JavaScript
 // hook will only be called for .ts files
@@ -13,9 +14,15 @@ exports.translate = function(load) {
 
   if (loader.isEnv('build')) {
     // compile an entire TypeScript program for production mode
-    return loader.import('steal-typescript/createProgram')
-    .then(function(createProgram) {
-      return createProgram(load, compilerOptions);
+    return Promise.all([
+      loader.import('steal-typescript/createProgram'),
+      loader.import(loader.baseURL + 'tsconfig.json')
+        .catch(function() { return {}; })
+    ]).then(function(modules) {
+      var createProgram = modules[0];
+      var tsconfig = modules[1];
+      var buildOptions = assign({}, tsconfig.compilerOptions, compilerOptions);
+      return createProgram(load, buildOptions);
     });
   } else {
     // transpile a single TypeScript module for development mode

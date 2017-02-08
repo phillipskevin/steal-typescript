@@ -5,6 +5,7 @@ env:
 extends: 'eslint:recommended'
 globals:
   System: true
+  Promise: true
 rules:
   indent:
     - error
